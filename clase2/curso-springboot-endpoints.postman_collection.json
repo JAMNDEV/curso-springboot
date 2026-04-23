@@ -1,0 +1,190 @@
+{
+  "info": {
+    "name": "Curso SpringBoot - Endpoints por Clase",
+    "description": "Colección del curso con endpoints organizados por clase.\n\n- Clase 1: inicialización del proyecto y primer endpoint.\n- Clase 2: API REST + Controllers (CRUD en memoria).\n\nVariable recomendada:\n- baseUrl = http://localhost:8080",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "aeb6b165-0ca4-4667-adfd-23f7afc787af"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Clase 1 - Inicializacion API",
+      "description": "Primer endpoint del curso (Clase 1).",
+      "item": [
+        {
+          "name": "GET /api/libros (Clase 1)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros"
+              ]
+            },
+            "description": "Objetivo: validar que la API inicial del proyecto responde correctamente.\n\nTema de clase:\n- Introducción a Spring Boot.\n- Primer endpoint REST.\n\nRespuesta esperada:\n- 200 OK\n- JSON con lista de libros disponibles."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code es 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Clase 2 - API REST + Controllers",
+      "description": "Endpoints CRUD en memoria para la clase 2. Sin Service ni Repository en esta etapa.",
+      "item": [
+        {
+          "name": "GET /api/libros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros"
+              ]
+            },
+            "description": "Lista todos los libros del catálogo en memoria.\n\nRespuesta esperada:\n- 200 OK\n- Arreglo JSON de libros."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code es 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /api/libros/{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "1"
+              ]
+            },
+            "description": "Consulta un libro por ID.\n\nEjemplos:\n- /api/libros/1 -> 200 si existe\n- /api/libros/999 -> 404 si no existe"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/libros",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Clean Architecture\",\n  \"autor\": \"Robert C. Martin\",\n  \"isbn\": \"9780134494166\",\n  \"anio\": 2017,\n  \"disponible\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros"
+              ]
+            },
+            "description": "Crea un nuevo libro.\n\nRespuesta esperada:\n- 201 Created (cuando los datos son válidos)\n- 400 Bad Request (si falta título)"
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/libros/{id}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Java 17 Profesional\",\n  \"autor\": \"Autor Clase\",\n  \"isbn\": \"978000000099\",\n  \"anio\": 2026,\n  \"disponible\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "1"
+              ]
+            },
+            "description": "Actualiza completamente un libro por ID.\n\nRespuesta esperada:\n- 200 OK (si existe)\n- 404 Not Found (si no existe)"
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/libros/{id}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "2"
+              ]
+            },
+            "description": "Elimina un libro por ID.\n\nRespuesta esperada:\n- 204 No Content (si se eliminó)\n- 404 Not Found (si no existe)"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
