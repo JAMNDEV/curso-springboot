@@ -1,0 +1,419 @@
+{
+  "info": {
+    "name": "Curso SpringBoot - Clase 3 (Services + Validaciones)",
+    "description": "Colección de Postman para Clase 3.\n\nIncluye:\n- Endpoints de libros (3 capas).\n- Endpoints de préstamos con validaciones de negocio.\n- Casos de error 400, 404 y 409 con manejo global.\n\nVariable:\n- baseUrl = http://localhost:8080",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "7fd85456-3172-43dc-bc9d-56794520cb86"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "libroId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Libros - Clase 3",
+      "description": "CRUD de libros usando Controller + Service + Repository.",
+      "item": [
+        {
+          "name": "GET /api/libros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros"
+              ]
+            },
+            "description": "Lista de libros (200 OK)."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET /api/libros/{id} (OK)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/{{libroId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "{{libroId}}"
+              ]
+            },
+            "description": "Consulta libro por ID existente (200 OK)."
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/libros/999 (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "999"
+              ]
+            },
+            "description": "Libro inexistente (404 Not Found)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/libros (201)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Domain-Driven Design\",\n  \"autor\": \"Eric Evans\",\n  \"isbn\": \"9780321125217\",\n  \"anio\": 2003,\n  \"disponible\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros"
+              ]
+            },
+            "description": "Crea libro válido (201 Created)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/libros (400 Bean Validation)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"\",\n  \"autor\": \"\",\n  \"isbn\": \"\",\n  \"anio\": -1,\n  \"disponible\": null\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros"
+              ]
+            },
+            "description": "Fuerza validaciones de modelo (400 Bad Request)."
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/libros/{id} (200)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Java 17 y Arquitectura\",\n  \"autor\": \"Docente\",\n  \"isbn\": \"9780000011111\",\n  \"anio\": 2026,\n  \"disponible\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/{{libroId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "{{libroId}}"
+              ]
+            },
+            "description": "Actualiza libro existente (200 OK)."
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/libros/999 (404)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Libro Fantasma\",\n  \"autor\": \"N/A\",\n  \"isbn\": \"9780000099999\",\n  \"anio\": 2026,\n  \"disponible\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "999"
+              ]
+            },
+            "description": "Actualización de recurso inexistente (404)."
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/libros/{id} (204)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "3"
+              ]
+            },
+            "description": "Elimina recurso existente (204 No Content)."
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/libros/999 (404)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "999"
+              ]
+            },
+            "description": "Elimina recurso inexistente (404)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Prestamos - Validaciones de Negocio",
+      "description": "Casos para validar flujo secuencial, excepciones y códigos HTTP.",
+      "item": [
+        {
+          "name": "GET /api/prestamos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Lista de préstamos creados (200 OK)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/prestamos (201 valido)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": 1,\n  \"alumnoId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Crea préstamo válido (201). Marca libro como no disponible."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/prestamos (409 libro no disponible)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": 1,\n  \"alumnoId\": 3\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Regla de negocio: libro no disponible (409 Conflict)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/prestamos (409 alumno con deuda)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": 2,\n  \"alumnoId\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Regla de negocio: alumno con deuda pendiente (409 Conflict)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/prestamos (404 libro no existe)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": 999,\n  \"alumnoId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Excepción personalizada: libro no encontrado (404)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/prestamos (400 bean validation)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": -1,\n  \"alumnoId\": null\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Valida anotaciones en request DTO (400 Bad Request)."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
