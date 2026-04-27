@@ -1,0 +1,407 @@
+{
+  "info": {
+    "name": "Curso SpringBoot - Clase 4 (JPA + Base de Datos)",
+    "description": "Colección Postman para Clase 4.\n\nIncluye:\n- Endpoints de libros con JPA/JpaRepository.\n- Endpoints de préstamos con reglas de negocio.\n- Casos de validación y manejo de errores global.\n\nVariable:\n- baseUrl = http://localhost:8080",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "9d6b8727-53af-4ca3-a832-3bd8d4af729f"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "libroId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Libros - JPA",
+      "description": "Operaciones de libros usando entidades JPA y JpaRepository.",
+      "item": [
+        {
+          "name": "GET /api/libros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros"
+              ]
+            },
+            "description": "Lista todos los libros (200 OK)."
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/libros/{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/{{libroId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "{{libroId}}"
+              ]
+            },
+            "description": "Obtiene un libro por ID (200) o 404 si no existe."
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/libros/buscar?titulo=spring",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/buscar?titulo=spring",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "buscar"
+              ],
+              "query": [
+                {
+                  "key": "titulo",
+                  "value": "spring"
+                }
+              ]
+            },
+            "description": "Query method con Spring Data: findByTituloContainingIgnoreCase."
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/libros/disponibles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/disponibles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "disponibles"
+              ]
+            },
+            "description": "Consulta custom con @Query para listar solo disponibles."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/libros (201)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Arquitectura Limpia\",\n  \"autor\": \"Robert C. Martin\",\n  \"isbn\": \"9780134494166\",\n  \"anio\": 2017,\n  \"disponible\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros"
+              ]
+            },
+            "description": "Crea libro usando DTO request + validación (201 Created)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/libros (400 validacion)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"\",\n  \"autor\": \"\",\n  \"isbn\": \"\",\n  \"anio\": -10,\n  \"disponible\": null\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/libros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros"
+              ]
+            },
+            "description": "Fuerza Bean Validation (400)."
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/libros/{id} (200)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Spring Data JPA Avanzado\",\n  \"autor\": \"Docente\",\n  \"isbn\": \"9780000012345\",\n  \"anio\": 2026,\n  \"disponible\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/{{libroId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "{{libroId}}"
+              ]
+            },
+            "description": "Actualiza un libro por ID (200) o 404 si no existe."
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE /api/libros/{id}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/libros/3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "libros",
+                "3"
+              ]
+            },
+            "description": "Elimina un libro (204) o 404 si no existe."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Prestamos - Reglas de Negocio",
+      "description": "Valida secuencia: existencia, disponibilidad y deuda pendiente.",
+      "item": [
+        {
+          "name": "GET /api/prestamos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Lista préstamos actuales (200 OK)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/prestamos (201 valido)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": 1,\n  \"alumnoId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Crea un préstamo válido y cambia disponibilidad del libro."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/prestamos (409 libro no disponible)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": 1,\n  \"alumnoId\": 3\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Falla por regla de negocio: libro no disponible (409)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/prestamos (409 alumno con deuda)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": 2,\n  \"alumnoId\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Falla por regla de negocio: alumno con deuda pendiente (409)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/prestamos (404 no existe)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": 999,\n  \"alumnoId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Recurso no encontrado (404)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/prestamos (400 validacion)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": -1,\n  \"alumnoId\": null\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/prestamos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "prestamos"
+              ]
+            },
+            "description": "Falla de Bean Validation en DTO request (400)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Infra - H2",
+      "description": "Accesos útiles de desarrollo para la clase.",
+      "item": [
+        {
+          "name": "GET /h2-console",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/h2-console",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "h2-console"
+              ]
+            },
+            "description": "Abre consola H2 (interfaz web). JDBC URL esperada: jdbc:h2:mem:biblioteca_db"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
