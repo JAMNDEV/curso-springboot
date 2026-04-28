@@ -1,0 +1,95 @@
+{
+  "info": {
+    "_postman_id": "a9362f7d-40f9-4942-8f17-6d2e3902a9b1",
+    "name": "Curso Spring Boot - Clase 6",
+    "description": "Coleccion de endpoints para la clase 6 (clean code, capas, DTO y paginacion).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Libros",
+      "item": [
+        {
+          "name": "Listar libros",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/libros"
+          }
+        },
+        {
+          "name": "Listar libros paginados",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/libros/paginado?pagina=0&tamanio=5&ordenarPor=titulo&direccion=ASC"
+          }
+        },
+        {
+          "name": "Buscar por titulo",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/libros/buscar?titulo=spring"
+          }
+        },
+        {
+          "name": "Listar disponibles",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/libros/disponibles"
+          }
+        },
+        {
+          "name": "Crear libro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Refactorizacion para APIs\",\n  \"autor\": \"Jorge Martinez\",\n  \"isbn\": \"9786070000006\",\n  \"anio\": 2026,\n  \"disponible\": true\n}"
+            },
+            "url": "{{baseUrl}}/api/libros"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Prestamos",
+      "item": [
+        {
+          "name": "Listar prestamos",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/prestamos"
+          }
+        },
+        {
+          "name": "Crear prestamo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": 1,\n  \"alumnoId\": 1\n}"
+            },
+            "url": "{{baseUrl}}/api/prestamos"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
