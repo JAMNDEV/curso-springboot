@@ -1,0 +1,115 @@
+{
+  "info": {
+    "_postman_id": "d0917c23-0865-47de-a674-78ef53f85363",
+    "name": "Curso SpringBatch - Clase 1 (Spring MVC)",
+    "description": "Coleccion de endpoints para ejercicios de Spring MVC y testing sobre el proyecto biblioteca.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Libros",
+      "item": [
+        {
+          "name": "Listar libros",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/libros"
+          }
+        },
+        {
+          "name": "Buscar por titulo",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/libros/buscar?titulo=spring"
+          }
+        },
+        {
+          "name": "Filtrar autor + disponible",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/libros/filtrar?autor=martin&disponible=true"
+          }
+        },
+        {
+          "name": "Listar disponibles",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/libros/disponibles"
+          }
+        },
+        {
+          "name": "Crear libro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Usuario",
+                "value": "instructor"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Spring MVC Profesional\",\n  \"autor\": \"Jorge Martinez\",\n  \"isbn\": \"9786070000016\",\n  \"anio\": 2026,\n  \"disponible\": true\n}"
+            },
+            "url": "{{baseUrl}}/api/libros"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Prestamos",
+      "item": [
+        {
+          "name": "Listar prestamos",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/prestamos"
+          }
+        },
+        {
+          "name": "Crear prestamo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Usuario",
+                "value": "instructor"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"libroId\": 1,\n  \"alumnoId\": 1\n}"
+            },
+            "url": "{{baseUrl}}/api/prestamos"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Microservicios Demo",
+      "item": [
+        {
+          "name": "Disponibilidad remota",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/microservicios/libros/1/disponibilidad"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
